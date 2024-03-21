@@ -38,9 +38,9 @@ spec:
                 name: mongo-sec
                 key: password
         volumeMounts:
-          - name: mongo-volume
-            mountPath: /data/db
-      volumes: 
-      - name: mongo-volume
-        persistentVolumeClaim:
-          claimName: mongo-volume-claim
+        - name: mongo-data
+          mountPath: /data/db
+      volumes:
+      - name: mongo-data
+        hostPath:
+          path: /db
