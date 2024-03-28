@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: persevcareers6577/project-final:backend
+        image: persevcareers6577/project-final:VERSION
         imagePullPolicy: Always
         env:
           - name: MONGO_CONN_STR
