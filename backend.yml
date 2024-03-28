@@ -31,12 +31,12 @@ spec:
           - name: MONGO_USERNAME
             valueFrom:
               secretKeyRef:
-                name: mongo-sec
+                name: db-secret
                 key: username
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mongo-sec
+                name: db-secret
                 key: password
         ports:
         - containerPort: 3500
