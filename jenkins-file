@@ -1,0 +1,75 @@
+pipeline {
+    agent {
+        label 'connect'
+    }
+
+    environment {
+        KUBECONFIG_CREDENTIAL_ID = 'k8s-kubeconfig-dev'
+        version = "frontend_${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/persevcareers/React-Frontend.git'
+            }
+        }
+
+       stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "echo \"$DOCKER_PASSWORD\" | sudo docker login --username \"$DOCKER_USERNAME\" --password-stdin"
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Define Dockerfile location
+                    def dockerfilePath = '.'
+
+                    // Build Docker image with version tag
+                    // sh "sudo docker build -t 'persevcareers6577/perseverance-project:${version}' ."
+                    sh "sudo docker build -t 'persevcareers6577/perseverance-project:${version}' ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Push Docker image to repository
+                    // sh "sudo docker push 'persevcareers6577/perseverance-project:${version}'"
+                    sh "sudo docker push 'persevcareers6577/perseverance-project:${version}'"
+                }
+            }
+        } 
+
+        stage('Deploy to Kubernetes') {
+            steps {
+
+                withCredentials([file(credentialsId: KUBECONFIG_CREDENTIAL_ID, variable: 'KUBECONFIG')]) {
+                    script {
+                        // Retrieve kubeconfig file path from credentials
+                        def kubeconfigPath = env.KUBECONFIG
+                        def version = 'frontend_${env.BUILD_NUMBER}'
+
+                        // Set the version as an environment variable for the deployment process
+                      withEnv(["VERSION=${env.version}"])
+                      {
+                          sh "echo ${VERSION}"
+                          sh "export KUBECONFIG=${kubeconfigPath}"
+                          sh "kubectl scale deploy frontend --replicas=0 -n three-tier"
+                 //   sh "='frontend_${env.BUILD_NUMBER}' envsubst '${VERSION}' < frontend.yml > final_deployment.yaml"
+                          sh"   sed -i 's/VERSION/${VERSION}/g' frontend.yml"
+                         sh " cat frontend.yml"
+                         sh "kubectl apply -f frontend.yml --validate=false"
+                         sh "kubectl get pods -n three-tier"
+                      }
+                    }
+                }
+            }
+        }
+    }
+}
