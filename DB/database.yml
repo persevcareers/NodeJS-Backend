@@ -15,7 +15,7 @@ spec:
         app: mongodb
     spec: 
       containers:
-      - name: mon
+      - name: mongo-container
         image: mongo:4.4.6
         command:
             - "numactl"
