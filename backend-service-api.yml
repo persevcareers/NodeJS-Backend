@@ -6,7 +6,7 @@ metadata:
 spec:
   type: NodePort  # Change service type to NodePort
   ports:
-  - port: 30008  # Expose service on port 30008 on nodes
+  - port: 8080  # Expose service on port 30008 on nodes
     targetPort: 3100  # Route traffic to port 3100 on pods
     nodePort: 30008  # Specify the node port to use (30008)
     protocol: TCP
