@@ -5,7 +5,7 @@ metadata:
   namespace: fullstack
 spec: 
   ports:
-  - port: 3500
+  - port: 3100
     protocol: TCP
   type: ClusterIP
   selector:
