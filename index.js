@@ -1,4 +1,4 @@
-const tasks = require("./routes/courses");
+const courses = require("./routes/courses");
 const connection = require("./db");
 const cors = require("cors");
 const express = require("express");
@@ -8,6 +8,6 @@ connection();
 
 app.use(express.json());
 app.use(cors());
-app.use("/courses",courses);
+app.use("/courses", courses);
 const port = process.env.PORT || 3100;
 app.listen(port, () => console.log(`Our backend api is listening via port ${port}`));
