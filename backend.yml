@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: backend-api
   namespace: three-tier
-  #namespace: fullstack
   labels:
     role: backend
 spec:
@@ -40,18 +39,3 @@ spec:
                 key: password
         ports:
         - containerPort: 3100
-        |# Commenting out the livenessProbe
-        # livenessProbe: 
-        #   httpGet:
-        #     path: /ok
-        #     port: 3500
-        #   initialDelaySeconds: 2
-        #   periodSeconds: 5
-        |# Commenting out the readinessProbe
-        # readinessProbe:
-        #   httpGet:
-        #     path: /ok
-        #     port: 3500
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 5
-        #   successThreshold: 1
