@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-api
-  namespace: fullstack
+  namespace: three-tier
+  #namespace: fullstack
   labels:
     role: backend
 spec:
