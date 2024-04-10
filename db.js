@@ -15,7 +15,7 @@ module.exports = async () => {
            process.env.DB_CONN_STR,
            connectionParams
         );
-        console.log("Connected to database.");
+        console.log("Our Backend API is successfully Connected to Mongo database.");
     } catch (error) {
         console.log("Could not connect to database.", error);
     }
