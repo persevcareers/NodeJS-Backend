@@ -1,28 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  name: api
-  #namespace: fullstack
-  namespace: three-tier
-  labels: 
-    role: api
-spec: 
+metadata:
+  name: backend-api
+  namespace: fullstack
+  labels:
+    role: backend
+spec:
   replicas: 2
-  strategy: 
+  strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 25%
-  selector: 
+  selector:
     matchLabels:
-      role: api
+      role: backend
   template:
     metadata:
       labels:
-        role: api
+        role: backend
     spec:
       containers:
-      - name: api
+      - name: backend-api
         image: persevcareers6577/perseverance-project:VERSION
         imagePullPolicy: Always
         env:
@@ -39,17 +38,19 @@ spec:
                 name: db-secret
                 key: password
         ports:
-        - containerPort: 3500
-        livenessProbe: 
-          httpGet:
-            path: /ok
-            port: 3500
-          initialDelaySeconds: 2
-          periodSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /ok
-            port: 3500
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          successThreshold: 1
+        - containerPort: 3100
+        |# Commenting out the livenessProbe
+        # livenessProbe: 
+        #   httpGet:
+        #     path: /ok
+        #     port: 3500
+        #   initialDelaySeconds: 2
+        #   periodSeconds: 5
+        |# Commenting out the readinessProbe
+        # readinessProbe:
+        #   httpGet:
+        #     path: /ok
+        #     port: 3500
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        #   successThreshold: 1
