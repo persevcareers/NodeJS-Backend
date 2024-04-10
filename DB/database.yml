@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  #namespace: fullstack
   namespace: three-tier
   name: mongodb
 spec: 
