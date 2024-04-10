@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-service-ap
-  namespace: fullstack
+  namespace: three-tier
 spec:
   type: NodePort  # Change service type to NodePort
   ports:
