@@ -15,5 +15,5 @@ app.get('/ok', (req, res) => {
 
 app.use("/api/tasks", tasks);
 
-const port = process.env.PORT || 3500;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const port = process.env.PORT || 3100;
+app.listen(port, () => console.log(`Our backend api is listening via port ${port}`));
