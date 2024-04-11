@@ -14,8 +14,8 @@ spec:
         app: mongodb
     spec: 
       containers:
-      - name: mongo-container
-        image: mongo:4.4.6
+      - name: mongo-cont
+        image: mongo:latest
         command:
             - "numactl"
             - "--interleave=all"
