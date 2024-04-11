@@ -52,7 +52,6 @@ pipeline {
         stage('Cleanup Docker Images') {
             steps {
                 script {
-               //     def docker_image = "persevcareers6577/perseverance-project:${version}"
                     sh "sudo docker rmi -f ${env.docker_image}"
                 }
             }
