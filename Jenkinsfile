@@ -31,7 +31,7 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Push Docker Image') {
             steps {
                 script {
@@ -39,6 +39,16 @@ pipeline {
                 }
             }
         } 
+        stage('Security Scan') {
+            steps {
+                script {
+                    def outputFilePath = "${env.WORKSPACE}/trivy_scan.txt"
+                    def docker_image = "persevcareers6577/perseverance-project:${version}"
+                    sh "sudo trivy image ${docker_image} > ${outputFilePath}"
+                    sh "cat ${outputFilePath}"
+                }
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
