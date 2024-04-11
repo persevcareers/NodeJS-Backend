@@ -6,6 +6,7 @@ pipeline {
     environment {
         KUBECONFIG_CREDENTIAL_ID = 'k8s-kubeconfig-dev'
         version = "backend_${env.BUILD_NUMBER}"
+        docker_image = "persevcareers6577/perseverance-project:${version}"
     }
 
     stages {
@@ -43,13 +44,19 @@ pipeline {
             steps {
                 script {
                     def outputFilePath = "${env.WORKSPACE}/trivy_scan.txt"
-                    def docker_image = "persevcareers6577/perseverance-project:${version}"
                     sh "sudo trivy image ${docker_image} > ${outputFilePath}"
                     sh "cat ${outputFilePath}"
                 }
             }
         }
-
+        stage('Cleanup Docker Images') {
+            steps {
+                script {
+               //     def docker_image = "persevcareers6577/perseverance-project:${version}"
+                    sh "sudo docker rmi -f ${env.docker_image}"
+                }
+            }
+        }
         stage('Deploy to Kubernetes') {
             steps {
 
@@ -61,7 +68,7 @@ pipeline {
                       {
                          sh "echo ${VERSION}"
                          sh "export KUBECONFIG=${kubeconfigPath}"
-                    //     sh "kubectl scale deploy api --replicas=0 -n three-tier"
+                         sh "kubectl scale deploy api --replicas=0 -n three-tier"
                          sh" sed -i 's/VERSION/${VERSION}/g' backend.yml"
                          sh " cat backend.yml"
                          sh "kubectl apply -f backend.yml --validate=false"
