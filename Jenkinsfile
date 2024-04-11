@@ -62,7 +62,6 @@ pipeline {
                 withCredentials([file(credentialsId: KUBECONFIG_CREDENTIAL_ID, variable: 'KUBECONFIG')]) {
                     script {
                         def kubeconfigPath = env.KUBECONFIG
-                        def version = 'backend_${env.BUILD_NUMBER}'
                       withEnv(["VERSION=${env.version}"])
                       {
                          sh "echo ${VERSION}"
